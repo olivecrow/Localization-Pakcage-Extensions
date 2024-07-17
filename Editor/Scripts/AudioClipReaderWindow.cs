@@ -27,7 +27,7 @@ namespace LocalizationPackageExtensionsEditor
     {
         MaskField targetLocaleField;
         TextField format;
-        EnumField targetField;
+        EnumField targetCellField;
         EnumField localeStyleField;
         Button readAndApplyButton;
 
@@ -93,8 +93,8 @@ namespace LocalizationPackageExtensionsEditor
             
             format.RegisterValueChangedCallback(on_format_changed);
 
-            targetField = new EnumField("Target Cells", TargetCell.All);
-            rootVisualElement.Add(targetField);
+            targetCellField = new EnumField("Target Cells", TargetCell.All);
+            rootVisualElement.Add(targetCellField);
 
 
             targetLocaleField = new MaskField("Target Locales", allLocales.Select(x => x.LocaleName).ToList(), -1);
@@ -138,7 +138,7 @@ namespace LocalizationPackageExtensionsEditor
             {
                 foreach (var entry in table.SharedData.Entries)
                 {
-                    switch ((TargetCell)targetField.value)
+                    switch ((TargetCell)targetCellField.value)
                     {
                         case TargetCell.Empty:
                             if(audioPairTable.HasClip(table.TableCollectionName, table.LocaleIdentifier)) continue;

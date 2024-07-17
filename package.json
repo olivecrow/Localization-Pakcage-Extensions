@@ -1,0 +1,17 @@
+﻿{
+  "name": "com.olivecrow.localization-package-extensions",
+  "displayName": "Localization Package Extensions",
+  "version": "1.0.0",
+  "unity": "2022.3",
+  "description": "Additional functionalities for Unity's Localization Package.",
+  "category": "Tools",
+  "dependencies": {
+    "com.unity.localization": "",
+    "com.unity.textmeshpro": "",
+    "com.unity.addressables": ""
+  },
+  "repository": {
+    "url": "https://github.com/olivecrow/Localization-Pakcage-Extensions.git",
+    "type": "git"
+  }
+}

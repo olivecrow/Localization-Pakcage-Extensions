@@ -21,7 +21,6 @@ namespace LocalizationPackageExtensionsEditor
     {
         SerializedObject so;
         SerializedProperty googleAPIKey;
-        SerializedProperty openAIAPIKey;
         LocalizationPackageExtensionsProjectSettings settings => LocalizationPackageExtensionsProjectSettings.instance;
         LocalizationPackageExtensinosSettingsProvider(string path, SettingsScope scopes, IEnumerable<string> keywords = null) : base(path, scopes, keywords) { }
 
@@ -46,7 +45,6 @@ namespace LocalizationPackageExtensionsEditor
             so.Update();
             EditorGUI.BeginChangeCheck();
             EditorGUILayout.PropertyField(googleAPIKey);
-            EditorGUILayout.PropertyField(openAIAPIKey);
             if (EditorGUI.EndChangeCheck())
             {
                 so.ApplyModifiedProperties();

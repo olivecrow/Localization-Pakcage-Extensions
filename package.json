@@ -6,9 +6,9 @@
   "description": "Additional functionalities for Unity's Localization Package.",
   "category": "Tools",
   "dependencies": {
-    "com.unity.localization": "",
-    "com.unity.textmeshpro": "",
-    "com.unity.addressables": ""
+    "com.unity.localization": "1.0.0",
+    "com.unity.textmeshpro": "1.0.0",
+    "com.unity.addressables": "1.0.0"
   },
   "repository": {
     "url": "https://github.com/olivecrow/Localization-Pakcage-Extensions.git",

@@ -1,5 +1,4 @@
-﻿#if LOCALIZATION_PACKAGE_INSTALLED && ADDRESSABLES_PACKAGE_INSTALLED
-using System;
+﻿using System;
 using System.Collections.Generic;
 #if UNITY_EDITOR
 using UnityEditor;
@@ -216,4 +215,3 @@ namespace LocalizationPackageExtensions
         }
     }
 }
-#endif

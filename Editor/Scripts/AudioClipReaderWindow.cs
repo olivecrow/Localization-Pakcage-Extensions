@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Globalization;
 using System.Linq;
 using LocalizationPackageExtensions;
 using UnityEditor;
@@ -127,7 +126,6 @@ namespace LocalizationPackageExtensionsEditor
                 var path = AssetDatabase.GUIDToAssetPath(guid);
                 var clip = AssetDatabase.LoadAssetAtPath<AudioClip>(path);
                 clips.Add(clip);
-                Debug.Log($"find clips: {clip.name}");
             }
 
             var targetLocales = Mask
@@ -189,7 +187,6 @@ namespace LocalizationPackageExtensionsEditor
                     var clip = clips.FirstOrDefault(x => x.name == formatName);
                     if (clip != null)
                     {
-                        Debug.Log($"set clip: {table.LocaleIdentifier} | {entry.Key} => {clip.name}");
                         var audioPair = new AudioStringPair(entry.Key, entry.Id, table.LocaleIdentifier, clip);
                         audioPairTable.AddPair(audioPair);
                         EditorUtility.SetDirty(audioPairTable);

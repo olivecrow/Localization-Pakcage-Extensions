@@ -1,5 +1,4 @@
-﻿#if LOCALIZATION_PACKAGE_INSTALLED
-using System;
+﻿using System;
 using System.Collections.Generic;
 using Newtonsoft.Json.Linq;
 using UnityEngine;
@@ -52,5 +51,3 @@ namespace LocalizationPackageExtensionsEditor
         }
     }
 }
-
-#endif

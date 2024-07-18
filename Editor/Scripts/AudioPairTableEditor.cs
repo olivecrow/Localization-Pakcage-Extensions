@@ -4,7 +4,6 @@ using UnityEditor;
 using UnityEditor.Localization;
 using UnityEditor.UIElements;
 using UnityEngine;
-using UnityEngine.Localization.Tables;
 using UnityEngine.UIElements;
 
 namespace LocalizationPackageExtensionsEditor

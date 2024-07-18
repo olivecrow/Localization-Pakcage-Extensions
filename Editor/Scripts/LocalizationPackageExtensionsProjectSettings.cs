@@ -1,5 +1,4 @@
-﻿#if LOCALIZATION_PACKAGE_INSTALLED
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using LocalizationPackageExtensions;
 using UnityEditor;
 using UnityEngine.UIElements;
@@ -53,4 +52,3 @@ namespace LocalizationPackageExtensionsEditor
         }
     }
 }
-#endif

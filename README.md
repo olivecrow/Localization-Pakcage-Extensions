@@ -12,3 +12,12 @@ Currently this package provides the following additional features:
 - Localization related APIs.
 
 Detailed manual will be updated in the future.
+
+
+Detailed guides can be found in the Git Book below.
+https://olivecrow.gitbook.io/localization-package-extensions/
+
+If you have any questions, please send an email to the address below.
+
+- olivecow.report@gmail.com
+

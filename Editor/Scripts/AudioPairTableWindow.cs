@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Reflection;
@@ -10,7 +9,6 @@ using UnityEditor.UIElements;
 using UnityEngine;
 using UnityEngine.Localization;
 using UnityEngine.UIElements;
-using Object = UnityEngine.Object;
 
 namespace LocalizationPackageExtensionsEditor
 {

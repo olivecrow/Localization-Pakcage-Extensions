@@ -8,11 +8,8 @@ using UnityEngine.UI;
 
 namespace LocalizationPackageExtensions
 {
-    [Serializable]
-    public class LocalizedLegacyFont : LocalizedAsset<Font> { }
-
     [AddComponentMenu("Localization Extensions/Localize Legacy Font")]
-    public class LocalizeLegacyFont : LocalizedAssetBehaviour<Font, LocalizedLegacyFont>
+    public class LocalizeLegacyFont : LocalizedAssetBehaviour<Font, LocalizedFont>
     {
         public Text text;
         public TextMesh textMesh;

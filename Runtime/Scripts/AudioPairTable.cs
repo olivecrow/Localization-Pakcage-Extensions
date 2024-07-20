@@ -36,11 +36,22 @@ namespace LocalizationPackageExtensions
         Dictionary<string, Dictionary<LocaleIdentifier, AudioClip>> _categorizedKeyMap;
         Dictionary<long, Dictionary<LocaleIdentifier, AudioClip>> _categorizedIDMap;
         bool _initialized;
+#if UNITY_EDITOR
+        long _editorInitializedTime;
+#endif
 
         void Init()
         {
             if(_initialized) return;
+#if UNITY_EDITOR
+            if (!Application.isPlaying)
+            {
+                if(_editorInitializedTime == DateTime.Now.Ticks) return;
+                _editorInitializedTime = DateTime.Now.Ticks;
+            }
+#endif
             _categorizedKeyMap = new Dictionary<string, Dictionary<LocaleIdentifier, AudioClip>>();
+            if (pairMap == null) pairMap = new List<AudioStringPair>();
             foreach (var pair in pairMap)
             {
                 if (!_categorizedKeyMap.ContainsKey(pair.key)) _categorizedKeyMap[pair.key] = new Dictionary<LocaleIdentifier, AudioClip>();
@@ -69,7 +80,6 @@ namespace LocalizationPackageExtensions
 #endif
         }
 
-#if UNITY_EDITOR
         /// <summary>
         /// Adds a given AudioStringPair to the PairMap.
         /// If a pair with the same key value or keyId value as the given Pair already exists, it will be deleted.
@@ -101,7 +111,6 @@ namespace LocalizationPackageExtensions
             else if(entryReference.ReferenceType == TableEntryReference.Type.Id)
                 pairMap.RemoveAll(x => x.keyId == entryReference && x.localeId == localeID);
         }
-#endif
 
         public bool HasClip(TableEntryReference entryReference, LocaleIdentifier localeId)
         {

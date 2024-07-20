@@ -9,6 +9,7 @@ namespace LocalizationPackageExtensionsEditor
     public class LocalizationPackageExtensionsProjectSettings : ScriptableSingleton<LocalizationPackageExtensionsProjectSettings>
     {
         public string googleAPIKey;
+        public string audioClipReaderTargetFolder = "Assets";
 
         public void Save()
         {

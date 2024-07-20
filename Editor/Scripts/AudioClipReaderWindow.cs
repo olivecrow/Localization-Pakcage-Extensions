@@ -24,6 +24,8 @@ namespace LocalizationPackageExtensionsEditor
     }
     internal class AudioClipReaderWindow : EditorWindow
     {
+        TextField folderField;
+        Button folderButton;
         MaskField targetLocaleField;
         TextField format;
         EnumField targetCellField;
@@ -98,7 +100,24 @@ namespace LocalizationPackageExtensionsEditor
 
             targetLocaleField = new MaskField("Target Locales", allLocales.Select(x => x.LocaleName).ToList(), -1);
             rootVisualElement.Add(targetLocaleField);
-            
+
+            var horizontal = new VisualElement() { style = { flexDirection = FlexDirection.Row } };
+            rootVisualElement.Add(horizontal);
+            folderField = new TextField("Target Folder");
+            folderField.value = LocalizationPackageExtensionsProjectSettings.instance.audioClipReaderTargetFolder;
+            folderField.isReadOnly = true;
+            folderField.style.flexGrow = 1;
+            horizontal.Add(folderField);
+
+            folderButton = new Button(set_folder_path);
+            var icon = AssetDatabase.LoadAssetAtPath<Texture2D>("Assets/Localization Package Extensions/Editor/Icons/Folder Icon.png");
+            if(icon == null) icon = AssetDatabase.LoadAssetAtPath<Texture2D>("Packages/Localization Package Extensions/Editor/Icons/Folder Icon.png");
+            folderButton.Add(new Image(){image = icon, style = { width = 20, height = 20}});
+            folderButton.style.width = 26;
+            folderButton.style.paddingLeft = 2;
+            folderButton.style.paddingRight = 2;
+            horizontal.Add(folderButton);
+
             rootVisualElement.Add(new VisualElement(){style = { height = 20}});
 
             readAndApplyButton = new Button(ReadAndApply);
@@ -111,16 +130,28 @@ namespace LocalizationPackageExtensionsEditor
             {
                 localeStyleField.SetEnabled(evt.newValue.Contains("{locale}"));
             }
+            void set_folder_path()
+            {
+                var targetFolder = EditorUtility.OpenFolderPanel("Select Folder", "Assets", string.Empty);
+                if(string.IsNullOrWhiteSpace(targetFolder)) return;
+                
+                var relative = targetFolder.Substring(Application.dataPath.Length - "Assets".Length);
+                folderField.value = relative;
+                LocalizationPackageExtensionsProjectSettings.instance.audioClipReaderTargetFolder = relative;
+                LocalizationPackageExtensionsProjectSettings.instance.Save();
+            }
         }
 
         void ReadAndApply()
         {
-            var targetFolder = EditorUtility.OpenFolderPanel("Select Folder", "Assets", string.Empty);
-            if(string.IsNullOrWhiteSpace(targetFolder)) return;
-
-            var relative = targetFolder.Substring(Application.dataPath.Length - "Assets".Length);
+            if (!AssetDatabase.IsValidFolder(folderField.value))
+            {
+                Debug.LogWarning($"The path of the TargetFolder({folderField.value}) is not valid");
+                return;
+            }
+            
             var clips = new HashSet<AudioClip>();
-            var guids = AssetDatabase.FindAssets("t:AudioClip", new[] { relative });
+            var guids = AssetDatabase.FindAssets("t:AudioClip", new[] { folderField.value });
             foreach (var guid in guids)
             {
                 var path = AssetDatabase.GUIDToAssetPath(guid);

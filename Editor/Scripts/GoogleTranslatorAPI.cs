@@ -11,19 +11,14 @@ namespace LocalizationPackageExtensionsEditor
     {
         static string APIKey => LocalizationPackageExtensionsProjectSettings.instance.googleAPIKey;
 
-        public static void Request(Locale sourceLocale, Locale targetLocale, string text, Action<bool, string> result)
-        {
-            Request(sourceLocale.Identifier.Code, targetLocale.Identifier.Code, text, result);
-        }
-
-        public static void Request(string sourceLanguage, string targetLanguage, string text,
+        public static void Request(LocaleIdentifier sourceLocaleId, LocaleIdentifier targetLocaleId, string text,
             Action<bool, string> result)
         {
             var formData = new List<IMultipartFormSection>
             {
                 new MultipartFormDataSection("Content-Type", "application/json; charset=utf-8"),
-                new MultipartFormDataSection("source", sourceLanguage),
-                new MultipartFormDataSection("target", targetLanguage),
+                new MultipartFormDataSection("source", sourceLocaleId.Code),
+                new MultipartFormDataSection("target", targetLocaleId.Code),
                 new MultipartFormDataSection("format", "text"),
                 new MultipartFormDataSection("q", text)
             };

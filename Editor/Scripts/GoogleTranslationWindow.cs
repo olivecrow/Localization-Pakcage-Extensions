@@ -24,7 +24,7 @@ namespace LocalizationPackageExtensionsEditor
         DropdownField baseLocaleDropdown;
         DropdownField stringTableDropdown;
         MaskField targetLocaleMaskField;
-        DropdownField localizationTargetTypeField;
+        DropdownField targetCellField;
         Toggle overrideSmartStateToggle;
         Button localizationButton;
 
@@ -94,7 +94,7 @@ namespace LocalizationPackageExtensionsEditor
                 return;
             }
 
-            stringTableDropdown = new DropdownField("String Table");
+            stringTableDropdown = new DropdownField("String Table Collection");
             stringTableDropdown.choices = allTables.Select(x => x.TableCollectionName).ToList();
             stringTableDropdown.SetValueWithoutNotify(selectedTableCollection.TableCollectionName);
             stringTableDropdown.RegisterValueChangedCallback(evt => { selectedTableCollection = allTables.Find(x => x.TableCollectionName == evt.newValue); });
@@ -131,10 +131,10 @@ namespace LocalizationPackageExtensionsEditor
             });
             rootVisualElement.Add(targetLocaleMaskField);
 
-            localizationTargetTypeField = new DropdownField("Localization Target Type",
+            targetCellField = new DropdownField("Target Cells",
                 Enum.GetNames(typeof(TargetCell)).ToList(), 0);
-            localizationTargetTypeField.RegisterValueChangedCallback(evt => { targetCell = Enum.Parse<TargetCell>(evt.newValue); });
-            rootVisualElement.Add(localizationTargetTypeField);
+            targetCellField.RegisterValueChangedCallback(evt => { targetCell = Enum.Parse<TargetCell>(evt.newValue); });
+            rootVisualElement.Add(targetCellField);
 
             overrideSmartStateToggle = new Toggle("Override Smart State");
             overrideSmartStateToggle.value = true;
@@ -192,16 +192,12 @@ namespace LocalizationPackageExtensionsEditor
             try
             {
                 Debug.Log($"Translation Start | from [{baseLocale.name}] to [{string.Join(", ", selectedLocales.Select(x => x.LocaleName))}]");
-                var undoID = Undo.GetCurrentGroup();
-                Undo.RecordObject(selectedTableCollection, "Google Localization");
                 foreach (var stringTable in selectedTableCollection.StringTables)
                 {
-                    Undo.RecordObject(stringTable, "Google Localization");
                     EditorUtility.SetDirty(stringTable);
                 }
 
                 EditorUtility.SetDirty(selectedTableCollection);
-                Undo.CollapseUndoOperations(undoID);
 
 
                 var idx = 0f;
@@ -273,6 +269,7 @@ namespace LocalizationPackageExtensionsEditor
                         idx++;
                     }
                 }
+                AssetDatabase.SaveAssets();
             }
             catch (Exception)
             {
@@ -293,7 +290,7 @@ namespace LocalizationPackageExtensionsEditor
 
         protected void RequestTranslation(Locale targetLocale, string text, Action<bool, string> result)
         {
-            GoogleTranslatorAPI.Request(baseLocale, targetLocale, text, result);
+            GoogleTranslatorAPI.Request(baseLocale.Identifier, targetLocale.Identifier, text, result);
         }
 
         void Refresh()

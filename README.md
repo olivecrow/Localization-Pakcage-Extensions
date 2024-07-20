@@ -3,7 +3,7 @@
 This is an addotional funtionality plugin for Unity's Localization package.
 
 
-Currently this package provides the following additional features:
+Currently, this package provides the following additional features:
 
 - Google Translate.
 - StringTable and audio clip linking.
@@ -14,10 +14,10 @@ Currently this package provides the following additional features:
 Detailed manual will be updated in the future.
 
 
-Detailed guides can be found in the Git Book below.
-https://olivecrow.gitbook.io/localization-package-extensions/
+Detailed guides can be found in the Google Docs:
+https://docs.google.com/document/d/1_yXPstn3dK5hHhZJjNcaC2Jk0EZcd0qDFilXOP8uLlY/edit?usp=sharing
 
-If you have any questions, please send an email to the address below.
+If you have any questions, please email the address below.
 
 - olivecow.report@gmail.com
 

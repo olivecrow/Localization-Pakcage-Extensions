@@ -16,6 +16,8 @@ namespace LocalizationPackageExtensionsEditor
     {
         DropdownField stringTableDropdown;
         Toggle highlightNullToggle;
+        Button syncButton;
+        Button readButton;
         VisualElement tableGUI;
         MultiColumnListView view;
 
@@ -38,21 +40,22 @@ namespace LocalizationPackageExtensionsEditor
             stringTableDropdown.label = "String Table Collection";
             stringTableDropdown.RegisterValueChangedCallback(SetTable);
             rootVisualElement.Add(stringTableDropdown);
-
+            
+            
             highlightNullToggle = new Toggle("Highlight Null Field");
             highlightNullToggle.RegisterValueChangedCallback(evt => onHighlight?.Invoke(evt.newValue));
             rootVisualElement.Add(highlightNullToggle);
-
+            
             var horizontal = new VisualElement() { style = { flexDirection = FlexDirection.Row } };
             rootVisualElement.Add(horizontal);
 
-            var syncButton = new Button(Sync);
+            syncButton = new Button(Sync);
             syncButton.text = "Sync";
             syncButton.tooltip = "Updates the entries and text data in this AudioPairTable to match the connected StringTable";
             syncButton.style.width = 100;
             horizontal.Add(syncButton);
 
-            var readButton = new Button(() => AudioClipReaderWindow.Open(audioPairTable));
+            readButton = new Button(() => AudioClipReaderWindow.Open(audioPairTable));
             readButton.text = "Read and Apply AudioClips";
             readButton.tooltip = "Reads AudioClips under specific directory with given conditions. This is useful when you have to set lots of clips at once.";
             readButton.style.width = 250;
@@ -65,13 +68,14 @@ namespace LocalizationPackageExtensionsEditor
             rootVisualElement.Add(tableGUI);
             
             table = allTables.FirstOrDefault();
+            
             FindConnectedAudioTable();
             RefreshTableGUI();
         }
 
         void Sync()
         {
-            var editor = Editor.CreateEditor(table) as AudioPairTableEditor;
+            var editor = Editor.CreateEditor(audioPairTable) as AudioPairTableEditor;
             editor.Sync();
             DestroyImmediate(editor);
             RefreshTableGUI();
@@ -110,7 +114,11 @@ namespace LocalizationPackageExtensionsEditor
 
             if (audioPairTable == null)
             {
-                var label = new Label($"There is no AudioPairTable associated with this StringTableCollection [{table.TableCollectionName}]\n" +
+                highlightNullToggle.SetEnabled(false);
+                syncButton.SetEnabled(false);
+                readButton.SetEnabled(false);
+                
+                var label = new Label($"There is no AudioPairTable paired with this StringTableCollection [{table.TableCollectionName}]\n" +
                                       $"Create a new AudioPairTable asset by clicking the button below.");
                 label.style.unityTextAlign = TextAnchor.MiddleCenter;
                 tableGUI.Add(label);
@@ -124,6 +132,9 @@ namespace LocalizationPackageExtensionsEditor
                 tableGUI.Add(createAssetButton);
                 return;
             }
+            highlightNullToggle.SetEnabled(true);
+            syncButton.SetEnabled(true);
+            readButton.SetEnabled(true);
 
             var columns = new Columns();
             var keyColumn = new Column()
@@ -196,7 +207,7 @@ namespace LocalizationPackageExtensionsEditor
                         style = { flexGrow = 1}
                     };
                     
-                    clipField.value = audioPairTable.GetAudioClip(value.Key, stringTable.LocaleIdentifier);
+                    clipField.value = audioPairTable.GetAudioClip(value.KeyId, stringTable.LocaleIdentifier);
                     if (highlightNullToggle.value && clipField.value == null) clipField.Q<Label>().style.color = Color.red;
                     onHighlight += _highlight;
 
